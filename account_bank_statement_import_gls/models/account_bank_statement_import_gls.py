@@ -37,12 +37,14 @@ def iso8859_utf8(buf):
     return unicode(buf.decode("iso-8859-1").encode("utf8"), "utf8")
 
 def iso8859_proxy(reader):
+    #TODO: more performance by converting k only once
     for row in reader:
         ret = {iso8859_utf8(k): iso8859_utf8(v) for k, v in row.items()}
         yield ret
 
 def monetize(s):
-    return float(s.replace(".", "").replace(",", "."))
+    r = s.replace(".", "").replace(",", ".")
+    return float(r)
 
 class AccountBankStatementImport(models.TransientModel):
     _inherit = 'account.bank.statement.import'
@@ -54,6 +56,9 @@ class AccountBankStatementImport(models.TransientModel):
         return self._notifications
 
     def _parse_file(self, data_file):
+        account_invoice = self.env["account.invoice"].search(
+            [('reference', '!=', False)])
+
         try:
             reader = csv.DictReader(
                 StringIO.StringIO(data_file), delimiter=";")
@@ -78,10 +83,12 @@ class AccountBankStatementImport(models.TransientModel):
             self.meta = []
 
             for row in iso8859_proxy(reader):
+                row = Row(row) # your boat, gently down the stream
+
                 # make new statement when account number changes
                 if all([
                     len(self.account_number) > 0,
-                    row["Kontonummer"] != self.account_number
+                    row.raw["Kontonummer"] != self.account_number
                 ]):
                     self._append_bank_statement()
                     return (
@@ -90,22 +97,37 @@ class AccountBankStatementImport(models.TransientModel):
                         self.bank_statement_data
                     )
 
-                self.account_number = row["Kontonummer"]
+                self.account_number = row.raw["Kontonummer"]
 
-                self.transactions.append({
-                    "name": " ".join((
-                        row["VWZ{0}".format(i + 1)] for i in range(14)
-                    )),
-                    "date": datetime.strptime(
-                        row["Buchungstag"], "%d.%m.%Y").strftime(
-                            "%Y-%m-%d"),
-                    "amount": monetize(row["Betrag"]),
-                    "partner_name": row[u"Auftraggeber/Empfänger"]
-                })
+                self.transactions.append(row.items())
+                self.transactions[-1]["name"]
+
+                for i in account_invoice:
+                    if i.reference in row.ref:
+                        self.transactions[-1]["name"] = i.reference
+                        break
+                    if i.number in row.ref:
+                        self.transactions[-1]["name"] = i.number
+                        break
+
+                    sale_order = self.env["sale.order"].search([
+                        ('invoice_ids', 'in', [i.id])
+                    ])
+                    for i_i in sale_order:
+                        if i_i.name in row.ref:
+                            self.transactions[-1]["name"] = i_i.name
+                            break
+
+                meta = {}
+                # set Kontostand to 0, when its empty
+                try:
+                    meta["Kontostand"] = monetize(row.raw["Kontostand"])
+                except ValueError:
+                    meta["Kontostand"] = 0.0
 
                 self.meta.append({
-                    "Kontostand": monetize(row["Kontostand"]),
-                    "Betrag": monetize(row["Betrag"])
+                    "Kontostand": meta["Kontostand"],
+                    "Betrag": row.amount
                 })
 
             self._append_bank_statement()
@@ -115,11 +137,13 @@ class AccountBankStatementImport(models.TransientModel):
                 self.bank_statement_data
             )
         except ValueError, e:
-            print e
             return super(
                 AccountBankStatementImport, self)._parse_file(data_file)
 
     def _append_bank_statement(self):
+        """
+        to be called after Kontostand and Betrag are in self.meta
+        """
         bsd = {
             # csv is ordered top down wtf
             # get the newest date in transactions
@@ -159,3 +183,46 @@ class AccountBankStatementImport(models.TransientModel):
         notifications += self.notifications
 
         return statement_ids, notifications
+
+
+class Row(object):
+    def __init__(self, row):
+        self._row = row
+
+    @property
+    def amount(self):
+        return monetize(self._row["Betrag"])
+
+    @property
+    def date(self):
+        return datetime.strptime(
+            self._row["Buchungstag"], "%d.%m.%Y").strftime(
+                "%Y-%m-%d")
+
+    @property
+    def ref(self):
+        return " ".join((
+            # VWZ1-14
+            self._row["VWZ{0}".format(i + 1)] for i in range(14)
+        ))
+
+    @property
+    def name(self):
+        return self._row["Buchungstext"]
+
+    @property
+    def partner_name(self):
+        return self._row[u"Auftraggeber/Empfänger"]
+
+    @property
+    def raw(self):
+        return self._row
+
+    def items(self):
+        return {
+            "amount": self.amount,
+            "date": self.date,
+            "ref": self.ref,
+            "name": self.name,
+            "partner_name": self.partner_name
+        }
