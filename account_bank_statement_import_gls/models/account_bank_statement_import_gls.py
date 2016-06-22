@@ -7,6 +7,7 @@ import StringIO
 from datetime import datetime
 import operator
 import codecs
+import hashlib
 
 HEADERS = [
     u'Kontonummer',
@@ -100,7 +101,6 @@ class AccountBankStatementImport(models.TransientModel):
                 self.account_number = row.raw["Kontonummer"]
 
                 self.transactions.append(row.items())
-                self.transactions[-1]["name"]
 
                 for i in account_invoice:
                     if i.reference in row.ref:
@@ -217,6 +217,12 @@ class Row(object):
     @property
     def raw(self):
         return self._row
+
+    @property
+    def unique_import_id(self):
+        m = hashlib.md5()
+        m.update(self.ref)
+        return m.digest()
 
     def items(self):
         return {
