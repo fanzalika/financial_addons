@@ -17,9 +17,13 @@
     'category': 'Expense',
     'version': '0.0.1',
 
-    'depends': ['hr_expense'],
+    'depends': ['hr_expense', 'product', 'calendar'],
 
     'data': [
       'views/hr_expense.xml',
+      'views/product.xml',
+      'views/hr.xml',
+      #'views/calendar.xml',
+      'data/sequence.xml',
     ]
 }

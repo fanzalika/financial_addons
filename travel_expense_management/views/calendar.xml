@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <record id="view_expense_all" model="ir.ui.view">
+      <field name="name">calendar.event.expense.travels</field>
+      <field name="model">calendar.event</field>
+      <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//notebook" position="inside">
+          <page name="expense" string="Expense">
+            <group>
+              <field name="for_expense"/>
+              <field name="expense_arrival" attrs="{'invisible': [('for_expense', '=', False)]}"/>
+              <field name="expense_arrival_country" attrs="{'invisible': [('for_expense', '=', False)]}"/>
+            </group>
+          </page>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</openerp>

@@ -49,6 +49,9 @@
             <field name="attendees_other"/>
           </group>
         </xpath>
+        <field name="product_id" position="before">
+          <field name="ref"/>
+        </field>
       </field>
     </record>
 
@@ -58,6 +61,10 @@
       <field name="arch" type="xml">
         <form>
           <sheet>
+            <h1>Travel Expense Report -
+              <field name="employee_name" class="oe_inline" attrs="{'readonly': True}"/> -
+              <field name="ref" class="oe_inline" attrs="{'readonly': True}"/>
+            </h1>
             <group>
               <field name="employee_id"/>
               <field name="name"/>

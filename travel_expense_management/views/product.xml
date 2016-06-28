@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <record id="view_expense_all" model="ir.ui.view">
+      <field name="name">hr.expense.travels</field>
+      <field name="model">product.product</field>
+      <field name="inherit_id" ref="product.product_normal_form_view"/>
+      <field name="arch" type="xml">
+        <field name="type" position="after">
+          <field name="expense_type"/>
+        </field>
+      </field>
+    </record>
+  </data>
+</openerp>

@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from openerp import api, fields, models, _
+from openerp import api, fields, models, _, tools
 import dateutil
 
 class HrExpense(models.Model):
     _inherit = 'hr.expense'
     _name = 'hr.expense'
 
-
+    ref = fields.Char(string = _("Reference"), readonly = True)
     expense_type = fields.Selection(string = _("Expense type"),
         selection = [
             ('travel', _("Travel")),
@@ -28,15 +28,39 @@ class HrExpense(models.Model):
     waiter_tip = fields.Boolean(string = _("Waiter tip"))
     waiter_tip_amount = fields.Float(string = _("Waiter tip amount"))
 
+    image = fields.Binary(string=_('Image'), attachement=True)
+    image_medium = fields.Binary(
+        string=_('Image'), attachement=True, compute='_compute_images',
+        inverse='_inverse_image_medium', store=True)
+    image_small = fields.Binary(
+        string=_('Image'), attachement=True, compute='_compute_images',
+        inverse='_inverse_image_small', store=True)
+
+    @api.depends('image')
+    def _compute_images(self):
+        for rec in self:
+            rec.image_medium = tools.image_resize_image_medium(
+                rec.image, avoid_if_small=True)
+            rec.image_small = tools.image_resize_image_small(rec.image)
+
+    @api.model
+    def create(self, vals):
+        res_id = super(HrExpenseTravel, self).create(vals)
+        res_id.ref = sequence_obj._next()
+        return super(HrExpense, self).create(vals)
+
 
 class HrExpenseTravel(models.Model):
     _name = 'hr.expense.travel'
+
+    ref = fields.Char(string = _("Reference"), readonly = True)
 
     employee_id = fields.Many2one('hr.employee', string=_("Employee"),
         required=True,
         default=lambda self: self.env['hr.employee'].search(
             [('user_id', '=', self.env.uid)], limit=1)
     )
+    employee_name = fields.Char(related = 'employee_id.name')
     name = fields.Char(string = _("Name"), required = True)
 
     journey_start = fields.Datetime(string = _("Journey start"),
@@ -88,6 +112,7 @@ class HrExpenseTravel(models.Model):
     @api.model
     def create(self, vals):
         res_id = super(HrExpenseTravel, self).create(vals)
+
         for line_id in res_id.line_ids:
             res_id.reason_ids.create({
                 'date': line_id.date
@@ -96,6 +121,15 @@ class HrExpenseTravel(models.Model):
             res_id.deduction_ids.create({
                 'date': line_id.date
             })
+
+        if res_id.employee_id.expense_sequence_id:
+            ref = res_id.employee_id.expense_sequence_id._next()
+            res_id.ref = "{identification_id}/{journey_start_year}/{ref}".format(
+                identification_id = str(res_id.employee_id.identification_id),
+                journey_start_year = dateutil.parser.parse(
+                    res_id.journey_start).year,
+                ref = ref
+            )
 
         return res_id
 

@@ -1,0 +1,16 @@
+<openerp>
+  <data>
+    <record model="ir.sequence" id="hr_expense_sequence">
+      <field name="name">Expense Sequence</field>
+      <field name="code">hr.expense.sequence</field>
+      <field name="prefix">EX/%(y)s/%(month)s/</field>
+      <field name="padding">5</field>
+    </record>
+
+    <record model="ir.sequence" id="hr_expense_travel_sequence">
+      <field name="name">Travel Expense Sequence</field>
+      <field name="code">hr.expense.travel.sequence</field>
+      <field name="padding">5</field>
+    </record>
+</data>
+</openerp>
