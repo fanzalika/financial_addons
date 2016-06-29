@@ -1,0 +1,507 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* travel_expense_management
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 9.0c\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-06-29 13:35+0000\n"
+"PO-Revision-Date: 2016-06-29 13:35+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:90
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_accomodation_lump_sum
+#, python-format
+msgid "Accomodation lump sum"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:25
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_attendees_partner
+#, python-format
+msgid "Attendees partner"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:173
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_deduction_breakfast
+#, python-format
+msgid "Breakfast"
+msgstr ""
+
+#. module: travel_expense_management
+#: selection:hr.expense.travel.line,type:0
+msgid "Business trip"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.actions.act_window,help:travel_expense_management.action_expense_all_travel
+msgid "Click here to create new travel expenses."
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_company_id
+msgid "Company"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:157
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_line_travel_country_id
+#, python-format
+msgid "Country"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_create_uid
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_deduction_create_uid
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_line_create_uid
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_reason_create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_create_date
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_deduction_create_date
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_line_create_date
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_reason_create_date
+msgid "Created on"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:155
+#: code:addons/travel_expense_management/models/hr_expense.py:170
+#: code:addons/travel_expense_management/models/hr_expense.py:195
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_deduction_date
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_line_date
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_reason_date
+#, python-format
+msgid "Date"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:93
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_deduction_ids
+#: model:ir.ui.view,arch_db:travel_expense_management.view_expense_all_travel_form
+#, python-format
+msgid "Deductions"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:175
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_deduction_dinner
+#, python-format
+msgid "Dinner"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_deduction_display_name
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_display_name
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_line_display_name
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_reason_display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:87
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_distance_km
+#, python-format
+msgid "Distance (km)"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:151
+#: selection:hr.expense.travel.line,event:0
+#, python-format
+msgid "Domestic return"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.ui.view,arch_db:travel_expense_management.view_expense_all_travel_form
+msgid "Driving costs"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:62
+#: model:ir.model,name:travel_expense_management.model_hr_employee
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_employee_id
+#, python-format
+msgid "Employee"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:147
+#: model:ir.model,name:travel_expense_management.model_calendar_event
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_line_event
+#, python-format
+msgid "Event"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.model,name:travel_expense_management.model_hr_expense
+#: model:ir.model,name:travel_expense_management.model_hr_expense_travel
+msgid "Expense"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/calendar.py:8
+#, python-format
+msgid "Expense arrival"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/calendar.py:9
+#: code:addons/travel_expense_management/models/hr_expense.py:19
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_expense_country
+#, python-format
+msgid "Expense country"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:18
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_expense_location
+#, python-format
+msgid "Expense location"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr.py:8
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_employee_expense_sequence_id
+#, python-format
+msgid "Expense reference sequence"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:10
+#: code:addons/travel_expense_management/models/product.py:7
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_expense_type
+#: model:ir.model.fields,field_description:travel_expense_management.field_product_template_expense_type
+#, python-format
+msgid "Expense type"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:95
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_expense_ids
+#: model:ir.ui.view,arch_db:travel_expense_management.view_expense_all_travel_form
+#, python-format
+msgid "Expenses"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:75
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_travel_country_id
+#, python-format
+msgid "First Destination Country"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.ui.view,arch_db:travel_expense_management.view_expense_all_travel_form
+msgid "General reimburement"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_deduction_id
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_id
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_line_id
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_reason_id
+msgid "ID"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:31
+#: code:addons/travel_expense_management/models/hr_expense.py:33
+#: code:addons/travel_expense_management/models/hr_expense.py:36
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_image
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_image_medium
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_image_small
+#, python-format
+msgid "Image"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:23
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_attendees_internal
+#, python-format
+msgid "Internal attendees"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:72
+#: code:addons/travel_expense_management/models/hr_expense.py:152
+#: selection:hr.expense.travel.line,event:0
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_journey_end
+#, python-format
+msgid "Journey end"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:70
+#: code:addons/travel_expense_management/models/hr_expense.py:148
+#: selection:hr.expense.travel.line,event:0
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_journey_start
+#, python-format
+msgid "Journey start"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel___last_update
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_deduction___last_update
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_line___last_update
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_reason___last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_deduction_write_uid
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_line_write_uid
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_reason_write_uid
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_deduction_write_date
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_line_write_date
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_reason_write_date
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:156
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_line_location
+#, python-format
+msgid "Location"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:174
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_deduction_lunch
+#, python-format
+msgid "Lunch"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.actions.act_window,name:travel_expense_management.action_expense_all_travel
+#: model:ir.ui.menu,name:travel_expense_management.menu_expense_all_travel_expense
+msgid "My Travel Expenses"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:68
+#: code:addons/travel_expense_management/models/hr_expense.py:194
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_employee_name
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_name
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_reason_name
+#, python-format
+msgid "Name"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:176
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_deduction_nightmeal
+#, python-format
+msgid "Nightmeal"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:22
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_number_attendees
+#, python-format
+msgid "Number of attendees"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.actions.act_window,help:travel_expense_management.action_expense_all_travel
+msgid "Once you have created your travel expense, submit it to your manager who will validate it."
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:14
+#: code:addons/travel_expense_management/models/product.py:11
+#: selection:hr.expense,expense_type:0
+#: selection:product.template,expense_type:0
+#, python-format
+msgid "Others"
+msgstr ""
+
+#. module: travel_expense_management
+#: selection:hr.expense.travel.line,type:0
+msgid "Private trip"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.model,name:travel_expense_management.model_product_template
+msgid "Product Template"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:78
+#: code:addons/travel_expense_management/models/hr_expense.py:193
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_reason
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_reason_reason
+#, python-format
+msgid "Reason"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_reason_ids
+msgid "Reason ids"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.ui.view,arch_db:travel_expense_management.view_expense_all_travel_form
+msgid "Reasons"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:9
+#: code:addons/travel_expense_management/models/hr_expense.py:56
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_ref
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_ref
+#, python-format
+msgid "Reference"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:13
+#: code:addons/travel_expense_management/models/product.py:10
+#: selection:hr.expense,expense_type:0
+#: selection:product.template,expense_type:0
+#, python-format
+msgid "Refreshment"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:21
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_expense_restaurant
+#, python-format
+msgid "Restaurant"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:81
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_line_ids
+#: model:ir.ui.view,arch_db:travel_expense_management.view_expense_all_travel_form
+#, python-format
+msgid "Schedule"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.ui.view,arch_db:travel_expense_management.view_expense_all_travel_form
+msgid "Subsistence and accomodation"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:89
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_subsistence_lump_sum
+#, python-format
+msgid "Subsistence lump sum"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:12
+#: code:addons/travel_expense_management/models/product.py:9
+#: selection:hr.expense,expense_type:0
+#: selection:product.template,expense_type:0
+#, python-format
+msgid "Travel"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/calendar.py:12
+#: code:addons/travel_expense_management/models/hr_expense.py:16
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_expense_id
+#, python-format
+msgid "Travel Expense"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.ui.view,arch_db:travel_expense_management.view_expense_all_travel_form
+msgid "Travel Expense Report -"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:149
+#: selection:hr.expense.travel.line,event:0
+#, python-format
+msgid "Travel destination arrival"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:150
+#: selection:hr.expense.travel.line,event:0
+#, python-format
+msgid "Travel destination departure"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_deduction_travel_id
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_line_travel_id
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_reason_travel_id
+msgid "Travel id"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:159
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_line_type
+#, python-format
+msgid "Type"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:28
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_waiter_tip
+#, python-format
+msgid "Waiter tip"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:29
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_waiter_tip_amount
+#, python-format
+msgid "Waiter tip amount"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:171
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_travel_deduction_weekday
+#, python-format
+msgid "Weekday"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/calendar.py:7
+#, python-format
+msgid "for Expense"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.model,name:travel_expense_management.model_hr_expense_travel_deduction
+msgid "hr.expense.travel.deduction"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.model,name:travel_expense_management.model_hr_expense_travel_line
+msgid "hr.expense.travel.line"
+msgstr ""
+
+#. module: travel_expense_management
+#: model:ir.model,name:travel_expense_management.model_hr_expense_travel_reason
+msgid "hr.expense.travel.reason"
+msgstr ""
+
+#. module: travel_expense_management
+#: code:addons/travel_expense_management/models/hr_expense.py:27
+#: model:ir.model.fields,field_description:travel_expense_management.field_hr_expense_attendees_other
+#, python-format
+msgid "other attendees"
+msgstr ""
+
