@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_hr_expense_travel_user,hr.expense.travel.user,model_hr_expense_travel,base.group_hr_user,1,1,1,1
+access_hr_expense_travel_employee,hr.expense.travel.employee,model_hr_expense_travel,base.group_user,1,1,1,1
+
+access_hr_expense_travel_line_user,hr.expense.travel.line.user,model_hr_expense_travel_line,base.group_hr_user,1,1,1,1
+access_hr_expense_travel_line_employee,hr.expense.travel.line.employee,model_hr_expense_travel_line,base.group_user,1,1,1,1
+access_hr_expense_travel_deduction_user,hr.expense.travel.deduction.user,model_hr_expense_travel_deduction,base.group_hr_user,1,1,1,1
+access_hr_expense_travel_deduction_employee,hr.expense.travel.deduction.employee,model_hr_expense_travel_deduction,base.group_user,1,1,1,1
+access_hr_expense_travel_reason_user,hr.expense.travel.reason.user,model_hr_expense_travel_reason,base.group_hr_user,1,1,1,1
+access_hr_expense_travel_reason_employee,hr.expense.travel.reason.employee,model_hr_expense_travel_reason,base.group_user,1,1,1,1

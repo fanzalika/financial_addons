@@ -25,5 +25,7 @@
       'views/hr.xml',
       #'views/calendar.xml',
       'data/sequence.xml',
+      'security/ir_rule.xml',
+      'security/ir.model.access.csv'
     ]
 }

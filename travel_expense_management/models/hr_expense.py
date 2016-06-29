@@ -55,6 +55,10 @@ class HrExpenseTravel(models.Model):
 
     ref = fields.Char(string = _("Reference"), readonly = True)
 
+    company_id = fields.Many2one('res.company', string='Company',
+        readonly=True, # states={'draft': [('readonly', False)]},
+        default=lambda self: self.env.user.company_id)
+
     employee_id = fields.Many2one('hr.employee', string=_("Employee"),
         required=True,
         default=lambda self: self.env['hr.employee'].search(
