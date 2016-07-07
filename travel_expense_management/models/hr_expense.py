@@ -45,9 +45,18 @@ class HrExpense(models.Model):
 
     @api.model
     def create(self, vals):
-        res_id = super(HrExpenseTravel, self).create(vals)
-        res_id.ref = sequence_obj._next()
-        return super(HrExpense, self).create(vals)
+        res_id = super(HrExpense, self).create(vals)
+
+        if res_id.employee_id.expense_sequence_id:
+            ref = res_id.employee_id.expense_sequence_id._next()
+            res_id.ref = "{identification_id}/{journey_start_year}/{ref}".format(
+                identification_id = str(res_id.employee_id.identification_id),
+                journey_start_year = dateutil.parser.parse(
+                    res_id.date).year,
+                ref = ref
+            )
+
+        return res_id
 
 
 class HrExpenseTravel(models.Model):
@@ -65,7 +74,11 @@ class HrExpenseTravel(models.Model):
             [('user_id', '=', self.env.uid)], limit=1)
     )
     employee_name = fields.Char(related = 'employee_id.name')
-    name = fields.Char(string = _("Name"), required = True)
+
+    travel_type = fields.Selection(string = _("Travel type"), selection = [
+        ('domestic', _("Domestic")),
+        ('international', _("International")),
+    ])
 
     journey_start = fields.Datetime(string = _("Journey start"),
         compute = 'compute_line_information', readonly = True, required = True)

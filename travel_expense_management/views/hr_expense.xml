@@ -65,7 +65,7 @@
             </h1>
             <group>
               <field name="employee_id"/>
-              <field name="name"/>
+              <field name="travel_type"/>
               <field name="journey_start"/>
               <field name="journey_end"/>
               <field name="travel_country_id"/>
@@ -106,7 +106,7 @@
       <field name="model">hr.expense.travel</field>
       <field name="arch" type="xml">
         <tree>
-          <field name="name"/>
+          <field name="ref"/>
           <field name="reason"/>
           <field name="employee_id"/>
           <field name="distance_km"/>

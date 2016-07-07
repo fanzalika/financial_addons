@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <record model="ir.actions.act_window" id="travel_expense_management_config_action">
+      <field name="name">Configuration</field>
+      <field name="res_model">travel_management.config.settings</field>
+      <field name="view_mode">form</field>
+      <field name="target">inline</field>
+    </record>
+    <menuitem name="Config" id="travel_expense_management_menu_config"
+      parent="hr_expense.menu_hr_expense_configuration" action="travel_expense_management_config_action"/>
+
+    <record model="ir.ui.view" id="travel_expense_management_config_form">
+      <field name="name">Travel Management Configuration</field>
+      <field name="model">travel_management.config.settings</field>
+      <field name="arch" type="xml">
+        <form string="Travel Management Settings">
+          <header>
+            <button string="Save" type="object"
+              name="execute" class="oe_highlight"/>
+            <button string="Cancel" type="object"
+              name="cancel" class="oe_link"/>
+          </header>
+          <group>
+            <field name="lumprate"/>
+          </group>
+        </form>
+      </field>
+    </record>
+  </data>
+</openerp>

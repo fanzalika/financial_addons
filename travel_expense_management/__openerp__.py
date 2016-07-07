@@ -24,6 +24,7 @@
       'views/product.xml',
       'views/hr.xml',
       #'views/calendar.xml',
+      'views/config.xml',
       'data/sequence.xml',
       'security/ir_rule.xml',
       'security/ir.model.access.csv'
