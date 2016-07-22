@@ -2,6 +2,20 @@
 from openerp import api, fields, models, _, tools
 import dateutil
 
+def _compute_amount(tax_id, base_amount, price_unit, quantity=1.0,
+    product=None, partner=None):
+    """ Returns the amount of a single tax. base_amount is the actual amount on which the tax is applied, which is
+        price_unit * quantity eventually affected by previous taxes (if tax is include_base_amount XOR price_include)
+    """
+    if tax_id.amount_type == 'fixed':
+        return math.copysign(self.amount, base_amount) * quantity
+
+    if tax_id.amount_type == 'percent':
+        return base_amount - (base_amount / (1 + tax_id.amount / 100))
+
+    if tax_id.amount_type == 'division':
+        return base_amount / (1 - tax_id.amount / 100) - base_amount
+
 class HrExpense(models.Model):
     _inherit = 'hr.expense'
     _name = 'hr.expense'
@@ -35,6 +49,33 @@ class HrExpense(models.Model):
     image_small = fields.Binary(
         string=_('Image'), attachement=True, compute='_compute_images',
         inverse='_inverse_image_small', store=True)
+
+    unit_amount_untaxed = fields.Monetary(string = _("Amount Brutto"))
+
+    @api.onchange('unit_amount_untaxed')
+    def onchange_unit_amount_untaxed(self):
+        amounts = 0.0
+        company_id = self.env.user.company_id
+        currency_id = company_id.currency_id
+
+        for tax_id in self.tax_ids:
+            prec = currency_id.decimal_places
+
+            # CHECK AFTER UPDATE
+            amount = _compute_amount(tax_id,
+                self.unit_amount_untaxed, self.currency_id, 1,#quantity
+                self.product_id, self.employee_id.user_id.partner_id)
+
+            if (company_id.tax_calculation_rounding_method == 'round_globally'
+                or not bool(self.env.context.get("round", True))):
+                prec += 5
+
+                amounts += round(amount, prec)
+            else:
+                amounts += currency_id.round(amount)
+
+        self.unit_amount = currency_id.round(
+            self.unit_amount_untaxed - abs(amounts))
 
     @api.depends('image')
     def _compute_images(self):
@@ -84,9 +125,6 @@ class HrExpenseTravel(models.Model):
         compute = 'compute_line_information', readonly = True, required = True)
     journey_end = fields.Datetime(string = _("Journey end"),
         compute = 'compute_line_information', readonly = True, required = True)
-    travel_country_id = fields.Many2one('res.country', required = True,
-        readonly = True, string = _("First Destination Country"),
-        compute = 'compute_line_information')
 
     reason = fields.Text(string = _("Reason"),
         compute = 'compute_line_information', readonly = True)
@@ -117,8 +155,6 @@ class HrExpenseTravel(models.Model):
             for line in row.line_ids:
                 if line.event == "journey_start":
                     row.journey_start = line.date
-                elif line.event == "travel_dest_arrival":
-                    row.travel_country_id = line.travel_country_id
                 elif line.event == "travel_dest_departure":
                     pass
                 if line.event == "domestic_return":
@@ -181,6 +217,7 @@ class HrExpenseTravelDeductions(models.Model):
     travel_id = fields.Many2one(comodel_name = 'hr.expense.travel')
 
     date = fields.Date(string = _("Date"))
+    location = fields.Char(string = _("Location"))
     weekday = fields.Char(string = _("Weekday"), compute = 'compute_weekday',
         readonly = True)
     breakfast = fields.Boolean(string = _("Breakfast"))
@@ -204,5 +241,6 @@ class HrExpenseTravelReason(models.Model):
 
     travel_id = fields.Many2one(comodel_name = 'hr.expense.travel')
     reason = fields.Char(string = _("Reason"))
+    location = fields.Char(string = _("Location"))
     name = fields.Char(string = _("Name"))
     date = fields.Date(string = _("Date"))

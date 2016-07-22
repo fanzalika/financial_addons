@@ -68,7 +68,6 @@
               <field name="travel_type"/>
               <field name="journey_start"/>
               <field name="journey_end"/>
-              <field name="travel_country_id"/>
               <field name="reason"/>
             </group>
             <notebook>
@@ -133,6 +132,7 @@
       <field name="arch" type="xml">
         <tree editable="bottom">
           <field name="date"/>
+          <field name="location"/>
           <field name="weekday"/>
           <field name="breakfast"/>
           <field name="lunch"/>
@@ -148,6 +148,7 @@
       <field name="arch" type="xml">
         <tree editable="bottom">
           <field name="date"/>
+          <field name="location"/>
           <field name="reason"/>
           <field name="name"/>
         </tree>
