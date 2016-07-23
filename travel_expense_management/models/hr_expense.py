@@ -210,6 +210,20 @@ class HrExpenseTravelLine(models.Model):
         ('private', "Private trip"),
     ])
 
+    @api.onchange('event')
+    def onchange_event(self):
+        if self.event in ('journey_start', 'journey_end'):
+            self.location = (
+                self.travel_id.employee_id.work_location)
+            self.travel_country_id = (
+                self.travel_id.employee_id.company_id.country_id.id)
+        elif self.event == 'domestic_return':
+            self.travel_country_id = (
+                self.travel_id.employee_id.company_id.country_id.id)
+        elif self.travel_id.travel_type == 'domestic':
+            self.travel_country_id = (
+                self.travel_id.employee_id.company_id.country_id.id)
+
 class HrExpenseTravelDeductions(models.Model):
     _name = 'hr.expense.travel.deduction'
     _order = 'date'
