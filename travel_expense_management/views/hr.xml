@@ -18,7 +18,7 @@
       <field name="inherit_id" ref="hr_expense.hr_expense_form_view"/>
       <field name="arch" type="xml">
         <field name="unit_amount" position="attributes">
-          <attribute name="readonly">True</attribute>
+          <attribute name="invisible">True</attribute>
         </field>
         <field name="unit_amount" position="before">
             <field name="untaxed_amount" widget="monetary"/>

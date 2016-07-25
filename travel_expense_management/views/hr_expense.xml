@@ -53,6 +53,17 @@
       </field>
     </record>
 
+    <record id="view_expense_all_travel" model="ir.ui.view">
+      <field name="name">hr.expense.tree</field>
+      <field name="model">hr.expense</field>
+      <field name="inherit_id" ref="hr_expense.view_expenses_tree"/>
+      <field name="arch" type="xml">
+          <tree position="attributes">
+              <attribute name="default_order">date asc</attribute>
+          </tree>
+      </field>
+    </record>
+
     <record id="view_expense_all_travel_form" model="ir.ui.view">
       <field name="name">hr.expense.travel.form</field>
       <field name="model">hr.expense.travel</field>
