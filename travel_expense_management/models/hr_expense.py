@@ -52,7 +52,7 @@ class HrExpense(models.Model):
 
     unit_amount_untaxed = fields.Monetary(string = _("Amount Brutto"))
 
-    @api.onchange('unit_amount_untaxed')
+    @api.onchange('unit_amount_untaxed', 'tax_ids')
     def onchange_unit_amount_untaxed(self):
         amounts = 0.0
         company_id = self.env.user.company_id
