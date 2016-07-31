@@ -70,6 +70,14 @@
       <field name="arch" type="xml">
         <form>
           <sheet>
+          <div class="oe_button_box">
+               <button name="action_expense_documents"
+                   class="oe_stat_button"
+                   icon="fa-book"
+                   type="object">
+               <!--<field name="attachment_number" widget="statinfo" string="Expense Documents"/>-->
+           </button>
+            </div>
             <h1>Travel Expense Report -
               <field name="employee_name" class="oe_inline" attrs="{'readonly': True}"/> -
               <field name="ref" class="oe_inline" attrs="{'readonly': True}"/>

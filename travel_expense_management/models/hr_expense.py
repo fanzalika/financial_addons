@@ -186,6 +186,25 @@ class HrExpenseTravel(models.Model):
 
         return res_id
 
+    @api.multi
+    def action_expense_documents(self):
+        self.ensure_one()
+
+        expense_ids = self.expense_ids.mapped('id')
+
+        res = self.env['ir.actions.act_window'].for_xml_id(
+            'base', 'action_attachment')
+
+        res['domain'] = [
+            ('res_model', '=', 'hr.expense'),
+            ('res_id', 'in', expense_ids)
+        ]
+        res['context'] = {
+            'default_res_model': 'hr.expense'
+        }
+        import pdb; pdb.set_trace()
+        return res
+
 class HrExpenseTravelLine(models.Model):
     _name = 'hr.expense.travel.line'
     _rec_name = 'event'
