@@ -23,7 +23,7 @@
       action="action_expense_all_travel"
       sequence="9"/>
 
-    <record id="view_expense_all_travel" model="ir.ui.view">
+    <record id="view_expense_all_form" model="ir.ui.view">
       <field name="name">hr.expense.form</field>
       <field name="model">hr.expense</field>
       <field name="inherit_id" ref="hr_expense.hr_expense_form_view"/>
@@ -50,10 +50,17 @@
         <field name="product_id" position="before">
           <field name="ref"/>
         </field>
+        <field name="unit_amount" position="attributes">
+          <attribute name="invisible">True</attribute>
+        </field>
+        <field name="unit_amount" position="before">
+            <field name="untaxed_amount" widget="monetary"/>
+            <field name="unit_amount_untaxed" widget="monetary"/>
+        </field>
       </field>
     </record>
 
-    <record id="view_expense_all_travel" model="ir.ui.view">
+    <record id="view_expense_all_tree" model="ir.ui.view">
       <field name="name">hr.expense.tree</field>
       <field name="model">hr.expense</field>
       <field name="inherit_id" ref="hr_expense.view_expenses_tree"/>
