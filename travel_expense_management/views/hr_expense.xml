@@ -54,8 +54,15 @@
           <attribute name="invisible">True</attribute>
         </field>
         <field name="unit_amount" position="before">
-            <field name="untaxed_amount" widget="monetary"/>
             <field name="unit_amount_untaxed" widget="monetary"/>
+            <field name="unit_amount_tax" widget="monetary" readonly="True"/>
+            <field name="untaxed_amount" widget="monetary"/>
+        </field>
+        <field name="total_amount" position="before">
+            <field name="total_amount_antimurks" widget="monetary" readonly="True"/>
+        </field>
+        <field name="total_amount" position="attributes">
+            <attribute name="invisible">True</attribute>
         </field>
       </field>
     </record>

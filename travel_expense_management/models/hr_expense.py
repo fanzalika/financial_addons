@@ -51,15 +51,20 @@ class HrExpense(models.Model):
         inverse='_inverse_image_small', store=True)
 
     unit_amount_untaxed = fields.Monetary(string = _("Amount Brutto"))
+    unit_amount_tax = fields.Monetary(string = _("Amount Tax"))
+    total_amount_antimurks = fields.Monetary(string = _("Total Amount"))
 
-    @api.onchange('unit_amount_untaxed', 'tax_ids')
+    @api.onchange('unit_amount_untaxed', 'unit_amount_tax')
     def onchange_unit_amount_untaxed(self):
-        amounts = 0.0
         company_id = self.env.user.company_id
         currency_id = company_id.currency_id
+        amounts = 0.0
+
+        self.unit_amount = self.currency_id.round(
+            self.unit_amount_untaxed - self.unit_amount_tax)
 
         for tax_id in self.tax_ids:
-            prec = currency_id.decimal_places
+            prec = self.currency_id.decimal_places
 
             # CHECK AFTER UPDATE
             amount = _compute_amount(tax_id,
@@ -72,10 +77,11 @@ class HrExpense(models.Model):
 
                 amounts += round(amount, prec)
             else:
-                amounts += currency_id.round(amount)
+                amounts += self.currency_id.round(amount)
 
-        self.unit_amount = currency_id.round(
-            self.unit_amount_untaxed - abs(amounts))
+        self.unit_amount_tax = amounts
+
+        self.total_amount_antimurks = self.unit_amount_untaxed * self.quantity
 
     @api.depends('image')
     def _compute_images(self):
