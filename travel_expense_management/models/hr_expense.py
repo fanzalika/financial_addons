@@ -202,7 +202,6 @@ class HrExpenseTravel(models.Model):
         res['context'] = {
             'default_res_model': 'hr.expense'
         }
-        import pdb; pdb.set_trace()
         return res
 
 class HrExpenseTravelLine(models.Model):
