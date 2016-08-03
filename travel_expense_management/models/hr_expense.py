@@ -50,38 +50,41 @@ class HrExpense(models.Model):
         string=_('Image'), attachement=True, compute='_compute_images',
         inverse='_inverse_image_small', store=True)
 
-    unit_amount_untaxed = fields.Monetary(string = _("Amount Brutto"))
-    unit_amount_tax = fields.Monetary(string = _("Amount Tax"))
-    total_amount_antimurks = fields.Monetary(string = _("Total Amount"))
+    unit_amount_untaxed = fields.Monetary(string=_("Amount Brutto"))
+    unit_amount_tax = fields.Monetary(string=_("Amount Tax"),
+        compute = '_compute_amount', store = True)
+    total_amount = fields.Monetary(compute = '_compute_amount', store = True)
 
-    @api.onchange('unit_amount_untaxed', 'unit_amount_tax')
-    def onchange_unit_amount_untaxed(self):
-        company_id = self.env.user.company_id
-        currency_id = company_id.currency_id
-        amounts = 0.0
+    @api.depends('quantity', 'unit_amount', 'unit_amount_untaxed', 'tax_ids',
+        'currency_id')
+    def _compute_amount(self):
+        for rec in self:
+            company_id = self.env.user.company_id
+            currency_id = company_id.currency_id
+            amounts = 0.0
 
-        self.unit_amount = self.currency_id.round(
-            self.unit_amount_untaxed - self.unit_amount_tax)
+            rec.unit_amount = rec.currency_id.round(
+                rec.unit_amount_untaxed - rec.unit_amount_tax)
 
-        for tax_id in self.tax_ids:
-            prec = self.currency_id.decimal_places
+            for tax_id in rec.tax_ids:
+                prec = rec.currency_id.decimal_places
 
-            # CHECK AFTER UPDATE
-            amount = _compute_amount(tax_id,
-                self.unit_amount_untaxed, self.currency_id, 1,#quantity
-                self.product_id, self.employee_id.user_id.partner_id)
+                # CHECK AFTER UPDATE
+                amount = _compute_amount(tax_id,
+                    rec.unit_amount_untaxed, rec.currency_id, 1,#quantity
+                    rec.product_id, rec.employee_id.user_id.partner_id)
 
-            if (company_id.tax_calculation_rounding_method == 'round_globally'
-                or not bool(self.env.context.get("round", True))):
-                prec += 5
+                if (company_id.tax_calculation_rounding_method == 'round_globally'
+                    or not bool(rec.env.context.get("round", True))):
+                    prec += 5
 
-                amounts += round(amount, prec)
-            else:
-                amounts += self.currency_id.round(amount)
+                    amounts += round(amount, prec)
+                else:
+                    amounts += rec.currency_id.round(amount)
 
-        self.unit_amount_tax = amounts
-
-        self.total_amount_antimurks = self.unit_amount_untaxed * self.quantity
+            rec.untaxed_amount = rec.unit_amount_untaxed * rec.quantity
+            rec.unit_amount_tax = amounts
+            rec.total_amount = rec.unit_amount_untaxed * rec.quantity
 
     @api.depends('image')
     def _compute_images(self):
