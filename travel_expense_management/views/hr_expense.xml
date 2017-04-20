@@ -23,6 +23,22 @@
       action="action_expense_all_travel"
       sequence="9"/>
 
+    <record id="action_expense_approve_travel" model="ir.actions.act_window">
+      <field name="name">Travel Expenses to approve</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">hr.expense.travel</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_type">form</field>
+      <!--<field name="search_view_id" ref="product_search_form_view"/>-->
+      <field name="domain">[('state', '=', 'submit')]</field>
+    </record>
+
+    <menuitem id="menu_expense_approve_travel_expense"
+      name="Travel Expenses to approve"
+      parent="hr_expense.menu_hr_expense_root"
+      action="action_expense_approve_travel"
+      sequence="10"/>
+
     <record id="view_expense_all_form" model="ir.ui.view">
       <field name="name">hr.expense.form</field>
       <field name="model">hr.expense</field>
@@ -35,6 +51,9 @@
           <field name="waiter_tip" attrs="{'invisible': [('expense_type', '!=', 'refreshment')]}"/>
           <field name="waiter_tip_amount"
             attrs="{'invisible': ['|', ('waiter_tip', '=', False), ('expense_type', '!=', 'refreshment')]}"/>
+        </field>
+        <field name="total_amount" position="attributes">
+          <attribute name="invisible">1</attribute>
         </field>
         <xpath expr="//form/sheet/group" position="inside">
           <group attrs="{'invisible': [('expense_type', '!=', 'refreshment')]}">
@@ -57,6 +76,9 @@
             <field name="unit_amount_untaxed" widget="monetary"/>
             <field name="unit_amount_tax" widget="monetary"/>
             <field name="untaxed_amount" widget="monetary"/>
+        </field>
+        <field name="account_move_id" position="after">
+          <field name="expense_id"/>
         </field>
       </field>
     </record>
@@ -88,14 +110,19 @@
       <field name="model">hr.expense.travel</field>
       <field name="arch" type="xml">
         <form>
+          <header>
+            <button name="submit_travel_expenses" states="draft" string="Submit to Manager" type="object" icon="fa-check"/>
+            <button name="approve_travel_expenses" states="submit" string="Click here to approve" type="object" icon="fa-check" groups="base.group_hr_manager"/>
+            <field name="state" widget="statusbar"/>
+          </header>
           <sheet>
-          <div class="oe_button_box">
-               <button name="action_expense_documents"
-                   class="oe_stat_button"
-                   icon="fa-book"
-                   type="object">
-               <!--<field name="attachment_number" widget="statinfo" string="Expense Documents"/>-->
-           </button>
+            <div class="oe_button_box">
+              <button name="action_expense_documents"
+                class="oe_stat_button"
+                icon="fa-book"
+                type="object">
+              <!--<field name="attachment_number" widget="statinfo" string="Expense Documents"/>-->
+              </button>
             </div>
             <h1>Travel Expense Report -
               <field name="employee_name" class="oe_inline" attrs="{'readonly': True}"/> -
@@ -142,11 +169,14 @@
       <field name="name">hr.expense.travel.tree</field>
       <field name="model">hr.expense.travel</field>
       <field name="arch" type="xml">
-        <tree>
+        <tree colors="red: state == 'submit'">
           <field name="ref"/>
           <field name="reason"/>
           <field name="employee_id"/>
           <field name="distance_km"/>
+          <field name="state"/>
+          <button name="submit_travel_expenses" states="draft" string="Submit to Manager" type="object" icon="fa-check"/>
+          <button name="approve_travel_expenses" states="submit" string="Click here to approve" type="object" icon="fa-check" groups="base.group_hr_manager"/>
         </tree>
       </field>
     </record>

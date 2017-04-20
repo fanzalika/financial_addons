@@ -53,7 +53,7 @@ class HrExpense(models.Model):
     unit_amount_untaxed = fields.Monetary(string=_("Amount Brutto"))
     unit_amount_tax = fields.Monetary(string=_("Amount Tax"),
         compute = '_compute_amount', store = True)
-    total_amount = fields.Monetary(compute = '_compute_amount', store = True)
+    total_amount = fields.Monetary(compute = '_compute_amount')
 
     @api.depends('quantity', 'unit_amount', 'unit_amount_untaxed', 'tax_ids',
         'currency_id')
@@ -82,9 +82,10 @@ class HrExpense(models.Model):
                 else:
                     amounts += rec.currency_id.round(amount)
 
-            rec.untaxed_amount = rec.unit_amount_untaxed * rec.quantity
+            rec.untaxed_amount = (
+                rec.unit_amount_untaxed * rec.quantity - amounts)
             rec.unit_amount_tax = amounts
-            rec.total_amount = rec.unit_amount_untaxed * rec.quantity
+            rec.total_amount = rec.unit_amount_untaxed * rec.quantity - amounts
 
     @api.depends('image')
     def _compute_images(self):
@@ -111,6 +112,21 @@ class HrExpense(models.Model):
 
 class HrExpenseTravel(models.Model):
     _name = 'hr.expense.travel'
+    _inherit = ['ir.needaction_mixin']
+
+    _rec_name = 'ref'
+
+    state = fields.Selection(
+        selection=[
+            ('draft', 'To Submit'),
+            ('submit', 'Submitted'),
+            ('approve', 'Approved'),
+            ('post', 'Waiting Payment'),
+            ('done', 'Paid'),
+            ('cancel', 'Refused')
+        ], string='Status', index=True,
+        track_visibility='onchange', copy=False, default='draft', required=True
+    )
 
     ref = fields.Char(string = _("Reference"), readonly = True)
 
@@ -158,6 +174,19 @@ class HrExpenseTravel(models.Model):
         ])
 
     @api.multi
+    def submit_travel_expenses(self):
+        if any(travel_expense.state != 'draft' for travel_expense in self):
+           raise UserError(_("You can only submit draft expenses!"))
+        self.write({'state': 'submit'})
+
+    @api.multi
+    def approve_travel_expenses(self):
+        self.write({'state': 'approve'})
+
+        for rec in self:
+            rec.expense_ids.write({'state': 'approve'})
+
+    @api.multi
     @api.depends('line_ids')
     def compute_line_information(self):
         for row in self:
@@ -194,6 +223,12 @@ class HrExpenseTravel(models.Model):
             )
 
         return res_id
+
+    @api.model
+    def _needaction_domain_get(self):
+        if not self.env.user.has_group("base.group_hr_manager"):
+            return False
+        return [('state', '=', 'submit')]
 
     @api.multi
     def action_expense_documents(self):
