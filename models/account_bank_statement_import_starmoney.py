@@ -1,27 +1,9 @@
 # -*- coding: utf-8 -*-
+import pandas as pd
+from StringIO import StringIO
 
-from openerp import api, fields, models, _, tools
+from openerp import models
 
-import tablib
-import maya
-import collections
-import codecs
-import hashlib
-
-HEADERS = [
-    "Nummer", "Buchungsdatum", "Valutadatum", "Waehrung", "Betrag",
-    "Empfaengername", "Bankleitzahl", "Kontonummer", "Referenz",
-    "Textschluessel", "Kategorie", "Kommentar", "Verwendungszweck_1",
-    "Verwendungszweck_2", "Verwendungszweck_3", "Verwendungszweck_4",
-    "Verwendungszweck_5", "Verwendungszweck_6", "Verwendungszweck_7",
-    "Verwendungszweck_8", "Verwendungszweck_9", "Verwendungszweck_10",
-    "Verwendungszweck_11", "Verwendungszweck_12", "Verwendungszweck_13",
-    "Verwendungszweck_14"
-]
-
-def monetize(s):
-    r = s.replace(".", "").replace(",", ".")
-    return float(r)
 
 class AccountBankStatementImport(models.TransientModel):
     _inherit = 'account.bank.statement.import'
@@ -34,44 +16,46 @@ class AccountBankStatementImport(models.TransientModel):
 
     def _parse_file(self, data_file):
         try:
-            imported = tablib.Dataset().load(
-                data_file.decode("iso-8859-1").encode("utf8"),
-                format="csv", delimiter=";")
-            if imported.headers != HEADERS:
-                pass
+            datafile = StringIO(data_file)
+            dataset = pd.read_csv(
+                datafile,
+                encoding='utf-8-sig',
+                sep=';', quotechar='"',
+                names=['date', 'partner', 'description', 'amount', 'saldo'],
+                skiprows=1,
+                parse_dates=['date'], dayfirst=True,
+                decimal=',',
+            ).dropna(how='any')
 
-            headers = {k: i for i, k in enumerate(imported.headers)}
-            def k(key, row):
-                return row[headers[key]]
-
-            imported.append_col(
-                lambda x: maya.parse(k("Buchungsdatum", x)), header="date")
-            imported.append_col(
-                lambda x: monetize(k("Betrag", x)), header="amount")
-            imported.append_col(
-                lambda x: ' '.join(
-                    k("Verwendungszweck_{}".format(_), x) for _ in range(1, 14)),
-                header="note"
+            currency_codes = set(
+                amount.split(' ')[-1] for amount in dataset['amount']
             )
 
-            headers.update({k: i for i, k in enumerate(imported.headers)})
-
-            currency_codes = set(imported["Waehrung"])
-            if len(currency_codes) != 1:
+            if len(currency_codes) > 1:
                 raise ValueError()
 
-            currency_code = currency_codes.pop()
+            # float foo
+            dataset['amount'] = [
+                amount.replace('.', '').replace(',', '.').replace(' EUR', '')
+                for amount in dataset['amount']
+            ]
+
+            dataset = dataset.convert_objects(convert_numeric=True)
+
+            rows = dataset[::-1].iterrows()
+
+            currency_code = 'EUR'
             account_number = None
 
             bank_statement_data = [{
-                "date": max(imported["date"]).iso8601()[:10],
+                "date": max(dataset['date']).strftime('%Y-%m-%d'),
                 "transactions": [{
-                    "name": k("note", row),
-                    "date": k("date", row).iso8601()[:10],
-                    "amount": k("amount", row),
-                    "account_number": k("Kontonummer", row),
-                    "partner_name": k("Empfaengername", row)
-                } for row in reversed(imported)]
+                    "name": row["description"],
+                    "date": row["date"].strftime('%Y-%m-%d'),
+                    "amount": row["amount"],
+                    # "account_number": row["account_number"],
+                    "partner_name": row["partner"]
+                } for _, row in rows]
             }]
 
             return (
@@ -79,6 +63,6 @@ class AccountBankStatementImport(models.TransientModel):
                 account_number,
                 bank_statement_data
             )
-        except ValueError:
+        except (ValueError, KeyError):
             return super(
                 AccountBankStatementImport, self)._parse_file(data_file)
