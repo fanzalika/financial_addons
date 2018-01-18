@@ -8,12 +8,6 @@ from openerp import models
 class AccountBankStatementImport(models.TransientModel):
     _inherit = 'account.bank.statement.import'
 
-    @property
-    def notifications(self):
-        if getattr(self, "_notifications", None) is None:
-            self._notifications = []
-        return self._notifications
-
     def _parse_file(self, data_file):
         try:
             datafile = StringIO(data_file)
@@ -24,7 +18,7 @@ class AccountBankStatementImport(models.TransientModel):
                 names=['date', 'partner', 'description', 'amount', 'saldo'],
                 skiprows=1,
                 parse_dates=['date'], dayfirst=True,
-                decimal=',',
+                decimal=',', thousands='.',
             ).dropna(how='any')
 
             currency_codes = set(
