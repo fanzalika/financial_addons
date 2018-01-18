@@ -55,12 +55,18 @@ class AccountBankStatementImport(models.TransientModel):
             currency_code = next(iter(currency_codes))
             account_number = None
 
+            dataset["VWZ"] = (
+                dataset[
+                    ["Buchungstext"] + ["VWZ" + str(i) for i in range(1, 15)]
+                ].fillna('').apply(lambda x: ' '.join(x), axis=1)
+            )
+
             rows = dataset[::-1].iterrows()
 
             bank_statement_data = [{
                 "date": max(dataset['Buchungstag']).strftime('%Y-%m-%d'),
                 "transactions": [{
-                    "name": row["Buchungstext"],
+                    "name": row["VWZ"],
                     "date": row["Buchungstag"].strftime('%Y-%m-%d'),
                     "amount": row["Betrag"],
                     "partner_name": row[u"Auftraggeber/Empfänger"]
